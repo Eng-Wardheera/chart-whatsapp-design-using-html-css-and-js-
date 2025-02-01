@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacayl Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #9a9a14, #ec7e7e);
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: rgb(217, 231, 133);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            animation: borderGlow 2s infinite alternate ease-in-out;
+        }
+        .container-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Nalalka Wareegaya */
+        .rotating-light {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8), rgba(0,0,0,0));
+            border-radius: 50%;
+            animation: rotateLights 5s linear infinite, changeColor 3s infinite alternate;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .profile img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            animation: borderColorGlow 4s infinite alternate ease-in-out;
+        }
+        .profile img:nth-child(1) {
+            box-shadow: 0 0 10px red;
+        }
+        .profile img:nth-child(2) {
+            box-shadow: 0 0 10px blue;
+        }
+        .heart img {
+            width: 40px;
+            display: block;
+            margin-top: 10px;
+            animation: heartbeat 3s infinite alternate ease-in-out, glow 1s infinite alternate ease-in-out;
+        }
+        .footer {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+      
+       
+        .person {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .signature {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: orange;
+            font-weight: bold;
+        }
+        span {
+            font-weight: bolder;
+        }
+
+        /* Animation-ka qalbiga */
+        @keyframes heartbeat {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(-10px); }
+        }
+
+        /* Qalbigu wuxuu bixin doonaa iftiin cad */
+        @keyframes glow {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(2); }
+        }
+
+        /* Nalal kala duwan oo ka ifaya sawirada */
+        @keyframes borderColorGlow {
+            0% { box-shadow: 0 0 10px red; }
+            25% { box-shadow: 0 0 15px blue; }
+            50% { box-shadow: 0 0 20px green; }
+            75% { box-shadow: 0 0 15px yellow; }
+            100% { box-shadow: 0 0 10px purple; }
+        }
+
+        /* Nalal kala duwan oo ka ifaya afarta gees */
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 20px rgb(255, 255, 255); }
+            25% { box-shadow: 0 0 25px blue; }
+            50% { box-shadow: 0 0 30px green; }
+            75% { box-shadow: 0 0 25px yellow; }
+            100% { box-shadow: 0 0 20px red; }
+        }
+        .quote, .footer {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            font-style: italic;
+            margin: 10px 0;
+            white-space: pre-line;
+            overflow: hidden;
+            border-right: 2px solid red;
+            display: inline-block;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-wrapper">
+        <!-- Nalalka Wareegaya -->
+        <div class="rotating-light"></div>
+
+    <div class="container">
+        <p class="quote" id="quote"></p><br>
+        <div class="profile">
+            <div class="person">
+                <img src="images/ahmed.png" alt="Ahmed">
+                <span>Ahmed</span>
+            </div>
+            <span class="heart"><img src="images/heart_ring.png" alt="Heart"></span>
+            <div class="person">
+                <img src="images/image.png" alt="Sahro">
+                <span>Sahro</span>
+            </div>
+        </div>
+        <p class="footer" id="footer"></p><br><br><br>
+        <p class="signature">@eng kulmiye</p>
+    </div>
+    </div>
+
+
+
+    <script>
+         const quotes = [
+            "Jacayl dhab ah waa mid aan la goyn karin, aan la ilaawi karin, una dhigma qaalinimo aan la qiyaasi karin.",
+            "Jacaylku waa sida dabaysha, ma arki kartid, laakiin waad dareemi kartaa.",
+            "Qofka aad jeceshahay kuma ogaado jacaylkaaga ilaa aad la hadasho qalbigiisa.",
+            "Dhib malahan inta jeer ee aad jabtay, jacaylka dhabta ah mar walba wuu bogsiinayaa.",
+            "Qalbiga jacaylku taabto, weligiis sidii hore ma noqdo.",
+            "Jacaylku ma ahan inaad iska hesho qof kula mid ah, waa inaad heshaa qof fahmaya waxa aad tahay."
+        ];
+
+        const footers = [
+            "Sahro, iftiinka noloshayda! 💖✨",
+            "Adigaa qalbigayga xaday! 🔐❤️",
+            "Macaanto, jacaylkaagu waa igu-dheer yahay! 🌹",
+            "Xidigta noloshayda, marna kaama daali doono! 🌟",
+            "Qalbigaygu waa dhulkaaga, adiga ayaan ku leeyahay! ❤️",
+            "Amaan adiga igu filan ma jiro, jaceyl waad u qalantaa! 💕"
+        ];
+
+        let usedQuotes = [];
+        let usedFooters = [];
+
+        function typeWriter(text, element, speed, callback) {
+            let index = 0;
+            element.textContent = "";
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text[index];
+                    index++;
+                    setTimeout(type, speed);
+                } else {
+                    setTimeout(callback, 2000);
+                }
+            }
+            type();
+        }
+
+        function startTypingQuotes() {
+            if (quotes.length === 0) {
+                quotes.push(...usedQuotes);
+                usedQuotes = [];
+            }
+            const newQuote = quotes.shift();
+            usedQuotes.push(newQuote);
+
+            const quoteElement = document.getElementById("quote");
+            typeWriter(newQuote, quoteElement, 50, () => {
+                startTypingFooter(); 
+            });
+        }
+
+        function startTypingFooter() {
+            if (footers.length === 0) {
+                footers.push(...usedFooters);
+                usedFooters = [];
+            }
+            const newFooter = footers.shift();
+            usedFooters.push(newFooter);
+
+            const footerElement = document.getElementById("footer");
+            typeWriter(newFooter, footerElement, 50, () => {
+                setTimeout(startTypingQuotes, 2000);
+            });
+        }
+
+        startTypingQuotes();
+    </script>
+</body>
+</html>

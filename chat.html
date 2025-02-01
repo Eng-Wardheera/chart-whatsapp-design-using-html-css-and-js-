@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jacayl Chat</title>
+    <style>
+           body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3, #fd8e72, #fda085);
+            background-size: 400% 400%;
+            animation: backgroundMove 6s infinite alternate;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        @keyframes backgroundMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .chat-container {
+            width: 450px;
+            background: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+        .profile img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            animation: colorChange 3s infinite alternate;
+        }
+        @keyframes colorChange {
+            0% { border-color: #ff758c; }
+            50% { border-color: #ff7eb3; }
+            100% { border-color: #fd8e72; }
+        }
+        .shumis {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: shumisFly 2s infinite;
+        }
+        @keyframes shumisFly {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+        }
+        .profile-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .profile p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .vs-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #666;
+        }
+        .typing-status {
+            font-size: 12px;
+            color: gray;
+            position: absolute;
+            top: 40px;
+        }
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            max-width: 70%;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .sent {
+            background: #dcf8c6;
+            align-self: flex-end;
+        }
+        .received {
+            background: #ececec;
+            align-self: flex-start;
+        }
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 3px;
+        }
+        .message-header img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+        .message-header p {
+            margin: 0;
+            font-size: 12px;
+            color: gray;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+        }
+        .chat-input button {
+            background: #25d366;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin-left: 5px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+         /* Animation-ka lagu daray */
+    .shake {
+        animation: shake 0.5s infinite;
+    }
+
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(5px); }
+    }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="shumis" style="top: 50px; left: 50px;">💋</div>
+        <div class="shumis" style="top: 80px; left: 120px; animation-delay: 0.5s;">💋</div>
+        <div class="shumis" style="top: 100px; left: 200px; animation-delay: 1s;">💋</div>
+        <div class="chat-header">Jacayl Chat 💖</div>
+        
+        <!-- Profiles Section -->
+        <div class="profile-container">
+            <div class="profile">
+                <img src="images/image.png" alt="Ahmed">
+                <div>
+                    <p>Sahro</p>
+                    <span class="typing-status" id="sahroTyping"></span>
+                </div>
+            </div>
+            <span class="vs-text">VS</span>
+            <div class="profile">
+                <img src="images/ahmed.png" alt="Sahro">
+                <div>
+                    <p>Ahmed</p>
+                    <span class="typing-status" id="ahmedTyping"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message received">
+                <div class="message-header">
+                    <img src="images/image.png" alt="Sahro">
+                    <p>Sahro • <span class="time">09:35 AM</span></p>
+                </div>
+                <span>Salaan macaane 💖</span>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Qor fariintaada..." oninput="showAhmedTyping()">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        let responseIndex = 0;
+        let hateWords = ["uf", "bax", "naag kale", "xumaan", "qudhun", "doqon"]; // Ereyada naceybka ah
+        let sendButton = document.querySelector(".chat-input button");
+        let chatInput = document.querySelector(".chat-input"); // Hel container-ka uu ku jiro badhanka
+        let angle = 0; // Xagasha uu ku wareegayo
+    
+        document.getElementById("messageInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    
+        document.getElementById("messageInput").addEventListener("input", function() {
+            checkHateSpeech();
+        });
+    
+        sendButton.addEventListener("mouseover", function() {
+            if (sendButton.classList.contains("run-away")) {
+                moveButtonCircular();
+            }
+        });
+    
+        function checkHateSpeech() {
+            let input = document.getElementById("messageInput").value.toLowerCase();
+            let containsHateSpeech = hateWords.some(word => input.includes(word));
+    
+            if (containsHateSpeech) {
+                sendButton.classList.add("run-away"); // Ka cararaya haddii hadal xun la qoro
+            } else {
+                sendButton.classList.remove("run-away");
+                resetButtonPosition(); // Dib ugu celi halkiisii hore
+            }
+        }
+    
+        function moveButtonCircular() {
+            let containerRect = chatInput.getBoundingClientRect(); // Xuduudaha chat-input
+            let buttonRect = sendButton.getBoundingClientRect(); // Xuduudaha badhanka
+    
+            let radius = 30; // Wareegga uu ku soconayo
+            let centerX = (containerRect.width - buttonRect.width) / 2; // Bartamaha x
+            let centerY = (containerRect.height - buttonRect.height) / 2; // Bartamaha y
+    
+            angle += Math.PI / 6; // Xagasha kordhi si uu u wareego
+            let x = centerX + radius * Math.cos(angle);
+            let y = centerY + radius * Math.sin(angle);
+    
+            sendButton.style.position = "absolute"; // Hubi inuu ku jiro chat-input
+            sendButton.style.left = `${x}px`;
+            sendButton.style.top = `${y}px`;
+        }
+    
+        function resetButtonPosition() {
+            sendButton.style.position = "static"; // Dib ugu celi halkiisii hore
+            sendButton.style.transform = "none";
+        }
+    
+        function getCurrentTime() {
+            let now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            return hours + ":" + minutes + " " + ampm;
+        }
+    
+        function sendMessage() {
+            let input = document.getElementById("messageInput");
+            let messageText = input.value.trim();
+            if (messageText === "") return;
+    
+            let chatBox = document.getElementById("chatMessages");
+            let message = document.createElement("div");
+            message.classList.add("message", "sent");
+            message.innerHTML = `
+                <div class="message-header">
+                    <img src="images/ahmed.png" alt="Ahmed">
+                    <p>Ahmed • <span class="time">${getCurrentTime()}</span></p>
+                </div>
+                <span>${messageText}</span>
+            `;
+            chatBox.appendChild(message);
+    
+            input.value = "";
+            checkHateSpeech(); // Hubi in badhanka caadi noqdo
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            hideAhmedTyping();
+            setTimeout(() => {
+                showSahroTyping();
+            }, 800);
+        }
+    
+        function showAhmedTyping() {
+            document.getElementById("ahmedTyping").textContent = "typing...";
+        }
+    
+        function hideAhmedTyping() {
+            document.getElementById("ahmedTyping").textContent = "";
+        }
+    
+        function showSahroTyping() {
+            document.getElementById("sahroTyping").textContent = "typing...";
+            setTimeout(() => {
+                hideSahroTyping();
+                receiveMessage();
+            }, 2000);
+        }
+    
+        function hideSahroTyping() {
+            document.getElementById("sahroTyping").textContent = "";
+        }
+    
+        function receiveMessage() {
+            let responses = [
+                "Seeitahay Ahmed ❤️",
+                "Ahmed ❤️",
+                "Iwaydii qalbi. 😎✌️",
+                "Waan ku jeclahay ❤️",
+                "Adigaba waa qurux badan tahay 💕",
+                "Waan ku xiisay 😘",
+                "Zaaid kuu jecelahay Mcne ? 🌙"
+            ];
+    
+            if (responseIndex >= responses.length) {
+                responseIndex = 0;
+            }
+    
+            let chatBox = document.getElementById("chatMessages");
+            let message = document.createElement("div");
+            message.classList.add("message", "received");
+            message.innerHTML = `
+                <div class="message-header">
+                    <img src="images/image.png" alt="Sahro">
+                    <p>Sahro • <span class="time">${getCurrentTime()}</span></p>
+                </div>
+                <span>${responses[responseIndex]}</span>
+            `;
+            chatBox.appendChild(message);
+    
+            chatBox.scrollTop = chatBox.scrollHeight;
+    
+            responseIndex++;
+        }
+    </script>
+    
+</body>
+</html>
